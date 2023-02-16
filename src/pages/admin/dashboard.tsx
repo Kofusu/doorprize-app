@@ -1,7 +1,13 @@
-import { NextPage } from "next";
 import Head from "next/head";
 
-const DashboardAdminPage: NextPage = () => {
+import { NextPageWithLayout } from "@/utils/types";
+import { AdminTemplate } from "@/components/templates/AdminTemplate";
+import { TitleAdminPage } from "@/components/molecules/TitleAdminPage";
+import { AdminDashboardCardList } from "@/components/organisms/AdminDashboardCardList";
+import { DashboardList } from "@/components/organisms/AdminList";
+import { Main } from "@/components/atoms/Main";
+
+const DashboardAdminPage: NextPageWithLayout = () => {
   return (
     <>
       <Head>
@@ -10,10 +16,21 @@ const DashboardAdminPage: NextPage = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main></main>
+      <Main>
+        <TitleAdminPage title="Dashboard" />
+        <AdminDashboardCardList />
+        <DashboardList />
+      </Main>
     </>
   );
-}
+};
 
+DashboardAdminPage.getLayout = page => {
+  return (
+    <>
+      <AdminTemplate>{page}</AdminTemplate>
+    </>
+  );
+};
 
-export default DashboardAdminPage
+export default DashboardAdminPage;

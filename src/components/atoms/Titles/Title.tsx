@@ -9,7 +9,7 @@ interface Props {
 
 const Title: FC<Props> = ({ level, children, className }) => {
   return (
-    <Typography.Title level={level} className={`${className}`}>
+    <Typography.Title level={level} className={`mb-0 ${className}`}>
       {children}
     </Typography.Title>
   );

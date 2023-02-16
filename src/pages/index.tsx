@@ -1,7 +1,8 @@
-import { NextPage } from "next";
 import Head from "next/head";
 
-const Home: NextPage = () => {
+import { NextPageWithLayout } from "@/utils/types";
+
+const Home: NextPageWithLayout = () => {
   return (
     <>
       <Head>
@@ -13,7 +14,6 @@ const Home: NextPage = () => {
       <main></main>
     </>
   );
-}
+};
 
-
-export default Home
+export default Home;
