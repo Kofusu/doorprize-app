@@ -1,18 +1,18 @@
-import React, { FC } from "react";
+import React, { FC, ReactNode } from "react";
 
 import { RegularText } from "@/components/atoms/Texts";
 
 interface Props {
-  text: string | number;
+  children: ReactNode;
   className?: string;
 }
 
-const ContentList: FC<Props> = ({ text, className }) => {
+const ContentAksi: FC<Props> = ({ children, className }) => {
   return (
     <RegularText className={`text-[18px] overflow-x-auto text ${className}`}>
-      {text}
+      {children}
     </RegularText>
   );
 };
 
-export default ContentList;
+export default ContentAksi;

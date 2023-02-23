@@ -4,8 +4,20 @@ import { NextPageWithLayout } from "@/utils/types";
 import { AdminTemplate } from "@/components/templates/AdminTemplate";
 import { TitleAdminPage } from "@/components/molecules/TitleAdminPage";
 import { Main } from "@/components/atoms/Main";
+import BlacklistUserList from "@/components/organisms/AdminList/BlacklistUserList";
+import { GetServerSideProps } from "next";
+import useUsers from "@/hooks/useUsers";
+import sql from "@/utils/db";
 
-const BlacklistUserPage: NextPageWithLayout = () => {
+
+interface Props {
+  users: any;
+}
+
+const BlacklistUserPage: NextPageWithLayout<Props> = ({users}) => {
+  
+  const { data } = useUsers(users);
+  
   return (
     <>
       <Head>
@@ -16,9 +28,61 @@ const BlacklistUserPage: NextPageWithLayout = () => {
       </Head>
       <Main>
         <TitleAdminPage title="Blacklist User" />
+        <BlacklistUserList users={data} />
       </Main>
     </>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  // const users = [
+  //   {
+  //     id_winner: 1,
+  //     id_user: 1,
+  //     nama_user: "Faizah Masturina Yuatno 1",
+  //     no_hp: "087858881307",
+  //     domisili: "Depok Lama",
+  //     email: "ijah1@gmail.com",
+  //     status: "active",
+  //   },
+  //   {
+  //     id_winner: 2,
+  //     id_user: 2,
+  //     nama_user: "Faizah Masturina Yuatno 2",
+  //     no_hp: "087858881307",
+  //     domisili: "Depok Baru",
+  //     email: "ijah2@gmail.com",
+  //     status: "blacklist",
+  //   },
+  //   {
+  //     id_winner: 3,
+  //     id_user: 3,
+  //     nama_user: "Faizah Masturina Yuatno 3",
+  //     no_hp: "087858881307",
+  //     domisili: "Depok Modern",
+  //     email: "ijah3@gmail.com",
+  //     status: "active",
+  //   },
+  // ];
+
+  let users: any = await sql(
+    "SELECT * FROM users WHERE status = 'blacklist'",
+  ).then((res: any) =>
+    res.map((obj: any) => ({
+      id_user: obj?.id_user,
+      nama_user: obj?.nama_user,
+      no_hp: obj?.no_hp,
+      domisili: obj?.domisili,
+      email: obj?.email,
+      status: obj?.status,
+    })),
+  );
+
+  return {
+    props: {
+      users,
+    },
+  };
 };
 
 BlacklistUserPage.getLayout = page => {

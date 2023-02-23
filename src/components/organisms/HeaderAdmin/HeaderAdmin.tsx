@@ -3,14 +3,16 @@ import { HeaderGreeting } from "@/components/molecules/HeaderGreeting";
 import { HeaderTitle } from "@/components/molecules/HeaderTitle";
 import React, { FC, memo } from "react";
 
-interface Props {}
+interface Props {
+  name: string
+}
 
-const HeaderAdmin: FC<Props> = () => {
+const HeaderAdmin: FC<Props> = ({name}) => {
   return (
     <header className="flex items-center bg-secondaryAdmin text-cusWhite h-[75px] z-50 sticky top-0 left-0 right-0">
       <Container className="flex items-center justify-between">
         <HeaderTitle title="Admin" />
-        <HeaderGreeting name="Rina" />
+        <HeaderGreeting name={name} />
       </Container>
     </header>
   );

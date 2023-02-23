@@ -1,64 +1,34 @@
-import { HorizontalDivider } from "@/components/atoms/Divider";
-import { RegularText } from "@/components/atoms/Texts";
-import { Title } from "@/components/atoms/Titles";
-import ListTitle from "@/components/atoms/Titles/ListTitle";
 import React, { FC } from "react";
+
+import { Column, Row } from "@/components/atoms/Grid";
+import ListTitle from "@/components/atoms/Titles/ListTitle";
 import { ContentList } from "../ContentList";
 
-interface Props {}
-
-const WinnerList: FC<Props> = () => {
+interface Props {
+  winner: any[];
+}
+const WinnerList: FC<Props> = ({ winner }) => {
   return (
-    <div className="mx-5 grid grid-cols-4 gap-y-3 h-[300px] overflow-auto">
-      <ListTitle>Nama Lengkap</ListTitle>
-      <ListTitle>No. HP</ListTitle>
-      <ListTitle>Domisili</ListTitle>
-      <ListTitle>Mendapatkan</ListTitle>
+    <div className="mx-5 h-[320px]">
+      <Column className="gap-y-3">
+        <Row>
+          <ListTitle className="flex-1">ID</ListTitle>
+          <ListTitle className="flex-[4]">Nama Lengkap</ListTitle>
+          <ListTitle className="flex-[4]">No. HP</ListTitle>
+          <ListTitle className="flex-[4]">Domisili</ListTitle>
+          <ListTitle className="flex-[4]">Mendapatkan</ListTitle>
+        </Row>
 
-      <ContentList text="Faizah Masturina Yuatno " />
-      <ContentList text="087851933311" />
-      <ContentList text="Depok" />
-      <ContentList text="Aqua Dingin" />
-
-      <ContentList text="Faizah Masturina Yuatno" />
-      <ContentList text="087851933311" />
-      <ContentList text="Depok" />
-      <ContentList text="Aqua Dingin" />
-
-      <ContentList text="Faizah Masturina Yuatno" />
-      <ContentList text="087851933311" />
-      <ContentList text="Depok" />
-      <ContentList text="Aqua Dingin" />
-
-      <ContentList text="Faizah Masturina Yuatno" />
-      <ContentList text="087851933311" />
-      <ContentList text="Depok" />
-      <ContentList text="Aqua Dingin" />
-
-      <ContentList text="Faizah Masturina Yuatno" />
-      <ContentList text="087851933311" />
-      <ContentList text="Depok" />
-      <ContentList text="Aqua Dingin" />
-
-      <ContentList text="Faizah Masturina Yuatno" />
-      <ContentList text="087851933311" />
-      <ContentList text="Depok" />
-      <ContentList text="Aqua Dingin" />
-
-      <ContentList text="Faizah Masturina Yuatno" />
-      <ContentList text="087851933311" />
-      <ContentList text="Depok" />
-      <ContentList text="Aqua Dingin" />
-
-      <ContentList text="Faizah Masturina Yuatno" />
-      <ContentList text="087851933311" />
-      <ContentList text="Depok" />
-      <ContentList text="Aqua Dingin" />
-
-      <ContentList text="Faizah Masturina Yuatno" />
-      <ContentList text="087851933311" />
-      <ContentList text="Depok" />
-      <ContentList text="Aqua Dingin" />
+        {winner?.map((user: any) => (
+          <Row key={user?.id_user}>
+            <ContentList className="flex-1" text={user?.id_user} />
+            <ContentList className="flex-[4]" text={user?.nama_user} />
+            <ContentList className="flex-[4]" text={user?.no_hp} />
+            <ContentList className="flex-[4]" text={user?.domisili} />
+            <ContentList className="flex-[4]" text={user?.nama_prize} />
+          </Row>
+        ))}
+      </Column>
     </div>
   );
 };

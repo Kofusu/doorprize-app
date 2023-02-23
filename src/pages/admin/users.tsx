@@ -4,8 +4,20 @@ import { NextPageWithLayout } from "@/utils/types";
 import { AdminTemplate } from "@/components/templates/AdminTemplate";
 import { TitleAdminPage } from "@/components/molecules/TitleAdminPage";
 import { Main } from "@/components/atoms/Main";
+import { ListUserList } from "@/components/organisms/AdminList";
+import { GetServerSideProps } from "next";
+import useUsers from "@/hooks/useUsers";
+import sql from "@/utils/db";
 
-const ListUserPage: NextPageWithLayout = () => {
+interface Props {
+  users: any;
+}
+
+const ListUserPage: NextPageWithLayout<Props> = ({ users }) => {
+  const { data } = useUsers(users);
+
+  console.log(data);
+
   return (
     <>
       <Head>
@@ -16,6 +28,7 @@ const ListUserPage: NextPageWithLayout = () => {
       </Head>
       <Main>
         <TitleAdminPage title="List Users" />
+        <ListUserList users={data} />
       </Main>
     </>
   );
@@ -27,6 +40,57 @@ ListUserPage.getLayout = page => {
       <AdminTemplate>{page}</AdminTemplate>
     </>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  // const users = [
+  //   {
+  //     id_winner: 1,
+  //     id_user: 1,
+  //     nama_user: "Faizah Masturina Yuatno 1",
+  //     no_hp: "087858881307",
+  //     domisili: "Depok Lama",
+  //     email: "ijah1@gmail.com",
+  //     status: "active",
+  //   },
+  //   {
+  //     id_winner: 2,
+  //     id_user: 2,
+  //     nama_user: "Faizah Masturina Yuatno 2",
+  //     no_hp: "087858881307",
+  //     domisili: "Depok Baru",
+  //     email: "ijah2@gmail.com",
+  //     status: "blacklist",
+  //   },
+  //   {
+  //     id_winner: 3,
+  //     id_user: 3,
+  //     nama_user: "Faizah Masturina Yuatno 3",
+  //     no_hp: "087858881307",
+  //     domisili: "Depok Modern",
+  //     email: "ijah3@gmail.com",
+  //     status: "active",
+  //   },
+  // ];
+
+  let users: any = await sql(
+    "SELECT * FROM users WHERE status = 'active'",
+  ).then((res: any) =>
+    res.map((obj: any) => ({
+      id_user: obj?.id_user,
+      nama_user: obj?.nama_user,
+      no_hp: obj?.no_hp,
+      domisili: obj?.domisili,
+      email: obj?.email,
+      status: obj?.status,
+    })),
+  );
+  
+  return {
+    props: {
+      users,
+    },
+  };
 };
 
 export default ListUserPage;

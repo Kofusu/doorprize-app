@@ -2,10 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  transition: 0.3s;
+}
+
 body {
   background: #E2E2E2;
   min-height: 100vh;
 }
+
+.cusShadow {
+  box-shadow: 0 4px 4px 0 #2C2D2E;
+}
+
 /* 
 #__next {
   min-height: 100vh;
