@@ -11,7 +11,7 @@ const queryClient = new QueryClient();
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   if (Component.getLayout) {
-    Component.getLayout(
+    return Component.getLayout(
       <QueryClientProvider client={queryClient}>
         <Component {...pageProps} />
       </QueryClientProvider>,
