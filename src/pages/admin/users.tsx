@@ -16,8 +16,6 @@ interface Props {
 const ListUserPage: NextPageWithLayout<Props> = ({ users }) => {
   const { data } = useUsers(users);
 
-  console.log(data);
-
   return (
     <>
       <Head>

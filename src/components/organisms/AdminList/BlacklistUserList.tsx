@@ -15,19 +15,12 @@ const BlacklistUserList: FC<Props> = ({ users }) => {
   const [list, setList] = useState<any>(users);
 
   const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    if (e.target.value === "") {
-      setList(users)
-      return
-    }
-
     setList((user: any) =>
-      user.filter((us: any) => us.nama_user.toLowerCase().includes(e.target.value.toLowerCase())),
+      users.filter((us: any) => us.nama_user.toLowerCase().includes(e.target.value.toLowerCase())),
     );
   };
 
   const changeUserStatus = (id: number, status: string) => {
-    console.log(`${process.env.NEXT_PUBLIC_HOST}/api/users/status`);
-
     axios({
       method: "PATCH",
       url: `${process.env.NEXT_PUBLIC_HOST}:3000/api/users/status`,
