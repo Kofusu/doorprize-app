@@ -1,12 +1,13 @@
-import React, { FC, FormEvent } from "react";
+import React, { ChangeEvent, FC, FormEvent } from "react";
 import { CiSearch } from "react-icons/ci";
 import { FiFilter } from "react-icons/fi";
 
 type Props = {
   placeholder?: string;
+  onChange: (e: any) => void
 };
 
-const Searchbar: FC<Props> = ({ placeholder }) => {
+const Searchbar: FC<Props> = ({ placeholder, onChange }) => {
   const submitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
@@ -16,6 +17,7 @@ const Searchbar: FC<Props> = ({ placeholder }) => {
         placeholder={placeholder}
         type="search"
         className="bg-default px-[10px] py-[10px] w-[184px] h-9 rounded-tl-xl rounded-bl-xl"
+        onChange={onChange}
       />
       <button
         type="submit"
@@ -23,7 +25,6 @@ const Searchbar: FC<Props> = ({ placeholder }) => {
       >
         <CiSearch size={25} />
       </button>
-      <FiFilter size={25} className="ml-4" />
     </form>
   );
 };

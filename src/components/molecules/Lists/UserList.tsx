@@ -1,14 +1,19 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 
 import { Column, Row } from "@/components/atoms/Grid";
 import ListTitle from "@/components/atoms/Titles/ListTitle";
 import { ContentAksi, ContentList } from "../ContentList";
+import { FiUserMinus, FiUserX } from "react-icons/fi";
+import { MediumText } from "@/components/atoms/Texts";
+import axios from "axios";
 
 interface Props {
   users: any[];
+  changeStatus: (id: number, status: string) => void
 }
 
-const UserList: FC<Props> = ({ users }) => {
+const UserList: FC<Props> = ({ users, changeStatus }) => {
+
   return (
     <div className="mx-5 h-[465px] mt-8">
       <Column className="gap-y-0">
@@ -35,7 +40,10 @@ const UserList: FC<Props> = ({ users }) => {
 
         {users?.map((user: any) => (
           <Row key={user?.id_user}>
-            <ContentList className="border-[1px] px-2 py-2 flex-1" text={user?.id_user} />
+            <ContentList
+              className="border-[1px] px-2 py-2 flex-1"
+              text={user?.id_user}
+            />
             <ContentList
               className="border-[1px] px-2 py-2 flex-[4]"
               text={user?.email}
@@ -52,10 +60,27 @@ const UserList: FC<Props> = ({ users }) => {
               className="border-[1px] px-2 py-2 flex-[4]"
               text={user?.no_hp}
             />
-            <ContentAksi
-              className="border-[1px] px-2 py-2 flex-[4]"
-            >
-              A
+            <ContentAksi className="border-[1px] px-2 py-2 flex-[4]">
+              <button
+                className="mx-auto bg-cusBlack px-4 py-2 rounded-lg text-white hover:opacity-80 active:opacity-60 flex items-center"
+                onClick={() => changeStatus(user?.id_user, user?.status)}
+              >
+                {user?.status === "active" ? (
+                  <>
+                    <FiUserX className="text-inherit" size={24} />
+                    <MediumText className="ml-2 text-[14px]">
+                      Blacklist
+                    </MediumText>
+                  </>
+                ) : (
+                  <>
+                    <FiUserMinus className="text-inherit" size={24} />
+                    <MediumText className="ml-2 text-[14px]">
+                      Unblacklist
+                    </MediumText>
+                  </>
+                )}
+              </button>
             </ContentAksi>
           </Row>
         ))}
