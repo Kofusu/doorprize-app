@@ -98,9 +98,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
     }))
   })
 
-  console.log(winner);
-  
-
   const jumlahUser = await sql(
     "SELECT COUNT(id_user) as count from users where status='active'",
   ).then((res: any) => res[0].count);
