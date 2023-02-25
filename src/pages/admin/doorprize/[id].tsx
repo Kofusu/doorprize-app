@@ -11,9 +11,10 @@ import sql from "@/utils/db";
 
 interface Props {
   prizes: any;
+  session?: any;
 }
 
-const DoorprizeDetailPage: NextPageWithLayout<Props> = ({ prizes }) => {
+const DoorprizeDetailPage: NextPageWithLayout<Props> = ({ prizes, session }) => {
   const [prizeList, setPrizeList] = useState<any>(prizes);
 
   return (
@@ -25,7 +26,7 @@ const DoorprizeDetailPage: NextPageWithLayout<Props> = ({ prizes }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Main>
-        <TitleAdminPage title={`${prizes[0].nama_session}`} />
+        <TitleAdminPage title={`${prizes[0]?.nama_session}`} />
         <PrizeList prizes={prizeList} />
       </Main>
     </>
@@ -62,22 +63,33 @@ export const getServerSideProps: GetServerSideProps<Props> = async context => {
   const { id } = context.query;
 
   const prizes =
-    await sql(`SELECT prize.id_prize, prize.nama_prize, prize.nama_gambar, sessions.nama_session FROM prize inner join sessions on
+    await sql(`SELECT prize.id_prize, prize.nama_prize, prize.nama_gambar, sessions.id_session, sessions.nama_session FROM sessions inner join prize on
   sessions.id_session=prize.id_session where prize.id_session=${id}`).then(
-      (res: any) =>
-        res.map((prize: any) => {
+      async (res: any) => {
+        if (res.length <= 0) {
+          return await sql(`SELECT * FROM sessions where id_Session=${id}`).then((res: any) => res.map((sess: any) => {
+            return {
+              id_session: sess?.id_session,
+              nama_session: sess?.nama_session
+            }
+          }))
+        }
+        
+        return res.map((prize: any) => {
           return {
             id_prize: prize?.id_prize,
             nama_prize: prize?.nama_prize,
             nama_gambar: prize?.nama_gambar,
             nama_session: prize?.nama_session,
           };
-        }),
+        })
+      }
+        
     );
 
   return {
     props: {
-      prizes,
+      prizes
     },
   };
 };

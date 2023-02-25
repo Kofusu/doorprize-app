@@ -9,7 +9,7 @@ interface Props {
 
 const ListSession: FC<Props> = ({ onClick, sessions }) => {
   return (
-    <div className="mx-5 h-[465px] mt-8">
+    <div className="mx-5 h-[465px] mt-8 overflow-auto">
       {sessions?.map((sess: any) => (
         <SessionCard key={sess?.id_session} session={sess} />
       ))}

@@ -1,3 +1,5 @@
 import LogoutConfirmModal from "./LogoutConfirmModal";
+import AddSessionsModal from "./AddSessionsModal";
+import AddPrizeModal from "./AddPrizeModal";
 
-export { LogoutConfirmModal };
+export { LogoutConfirmModal, AddSessionsModal, AddPrizeModal };
