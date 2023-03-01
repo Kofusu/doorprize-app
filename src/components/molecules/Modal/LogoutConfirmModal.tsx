@@ -1,7 +1,7 @@
-import React, { FC, ReactNode } from "react";
+import React, { FC, ReactNode, useContext } from "react";
 import { Modal } from "antd";
 import { useRouter } from "next/router";
-import { logout } from "@/firebase";
+import { AuthContext } from "@/context/authContext";
 
 const { confirm } = Modal;
 
@@ -10,6 +10,7 @@ type Props = {
 };
 
 const LogoutConfirmModal: FC<Props> = ({children}) => {
+  const ctx = useContext(AuthContext)
   const router = useRouter()
   const showDeleteConfirm = () => {
     confirm({
@@ -19,8 +20,8 @@ const LogoutConfirmModal: FC<Props> = ({children}) => {
       okType: "danger",
       cancelText: "No",
       onOk() {
-        logout();
-        router.push('/')
+        ctx.logout();
+        router.replace('/login')
       },
       onCancel() {
         console.log("Cancel");

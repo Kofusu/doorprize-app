@@ -23,7 +23,7 @@ const BlacklistUserList: FC<Props> = ({ users }) => {
   const changeUserStatus = (id: number, status: string) => {
     axios({
       method: "PATCH",
-      url: `${process.env.NEXT_PUBLIC_HOST}:3000/api/users/status`,
+      url: `/api/users/status`,
       data: { id, status },
     }).then(() => {
       setList((user: any) =>

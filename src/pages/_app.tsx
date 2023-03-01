@@ -1,7 +1,8 @@
+import AuthContextProvider from "@/context/authContext";
 import "@/styles/globals.css";
 import { NextPageWithLayout } from "@/utils/types";
 import type { AppProps } from "next/app";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryClient } from "react-query";
 
 type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
@@ -10,18 +11,11 @@ type AppPropsWithLayout = AppProps & {
 const queryClient = new QueryClient();
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
-  if (Component.getLayout) {
-    return Component.getLayout(
-      <QueryClientProvider client={queryClient}>
-        <Component {...pageProps} />
-      </QueryClientProvider>,
-    );
-  }
-
+  const getLayout = Component.getLayout || ((page) => page)
   return (
-    <QueryClientProvider client={queryClient}>
-      <Component {...pageProps} />
-    </QueryClientProvider>
+    <AuthContextProvider>
+      {getLayout(<Component {...pageProps} />)}
+    </AuthContextProvider>
   );
 };
 

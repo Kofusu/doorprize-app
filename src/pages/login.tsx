@@ -1,44 +1,44 @@
 import Head from "next/head";
 
 import { NextPageWithLayout } from "@/utils/types";
-import { AdminTemplate } from "@/components/templates/AdminTemplate";
 import { Main } from "@/components/atoms/Main";
 import { GetServerSideProps } from "next";
-import useUsers from "@/hooks/useUsers";
 import LoginForm from "@/components/organisms/LoginForm/LoginForm";
-import { Typography } from "antd";
-import { auth, logInWithEmailAndPassword } from "@/firebase";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { ChangeEvent, use, useState } from "react";
+import { ChangeEvent, useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Title } from "@/components/atoms/Titles";
+import { AuthContext } from "@/context/authContext";
+import axios from "axios";
 
 interface Props {
   users: any;
 }
 
 const LoginPage: NextPageWithLayout<Props> = ({ users }) => {
-  const [email, setEmail] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [user, loading, error] = useAuthState(auth);
+  const ctx = useContext(AuthContext)
   const router = useRouter();
 
-  if (loading) {
-    return (
-      <Typography.Title className="flex-center" style={{ height: "80vh" }}>
-        Loading...
-      </Typography.Title>
-    );
-  }
-
-  if (user) router.push("/admin/dashboard");
+  useEffect(() => {
+    if (ctx.userName !== "") router.push("/admin/dashboard");
+  }, [ctx.userName, router])
 
   const onSubmit = (): void => {
-    logInWithEmailAndPassword(email, password);
+    axios.post('/api/auth/login', {
+      username,
+      password
+    }).then((res: any) => {
+      if (res.data.success) {
+        ctx.login(res.data.username)
+      } else {
+        alert("Gagal Login")
+      }
+    })
   };
 
-  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    setEmail(e.target.value);
+  const handleusernameChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    setUsername(e.target.value);
   };
 
   const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -57,7 +57,7 @@ const LoginPage: NextPageWithLayout<Props> = ({ users }) => {
         <Title className="text-white">Login</Title>
         <LoginForm
           onSubmit={onSubmit}
-          onEmailChange={handleEmailChange}
+          onUsernameChange={handleusernameChange}
           onPasswordChange={handlePasswordChange}
         />
       </Main>

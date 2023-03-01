@@ -29,7 +29,7 @@ const SessionList: FC<Props> = ({sessions}) => {
   }
 
   const onOk = (text: string) => {
-    axios.post(`${process.env.NEXT_PUBLIC_HOST}:3000/api/sessions/session`, {
+    axios.post(`/api/sessions/session`, {
       namaSessions: text
     }).then((res: any) => {
       setList(res.data)

@@ -81,6 +81,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async context => {
             nama_prize: prize?.nama_prize,
             nama_gambar: prize?.nama_gambar,
             nama_session: prize?.nama_session,
+            id_session: prize?.id_session,
           };
         })
       }

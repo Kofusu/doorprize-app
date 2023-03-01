@@ -9,13 +9,16 @@ type Data = {
 const handler = (req: NextApiRequest, res: NextApiResponse<Data>) => {
   const { status, id } = req.body;
 
-  sql(
-    `UPDATE users SET status='${
-      status === "active" ? "blacklist" : "active"
-    }' WHERE id_user=${id}`,
-  );
+  if (req.method === "PATCH") {
+    sql(
+      `UPDATE users SET status='${
+        status === "active" ? "blacklist" : "active"
+      }' WHERE id_user=${id}`,
+    );
+  } else {
+    res.status(200).json({ name: "John Doe" });
+  }
 
-  res.status(200).json({ name: "John Doe" });
 };
 
 export default handler;

@@ -6,19 +6,24 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { namaSessions } = req.body;
   
 
-  const result = await sql(
-    `INSERT INTO sessions(nama_session) value('${namaSessions}')`,
-  ).then(async () => {
-    return await sql("SELECT * FROM sessions").then((ress: any) => ress.map((sess: any) => {
-      return {
-        id_session: sess?.id_session,
-        nama_session: sess?.nama_session
-      }
-    }))
-  });
+  if (req.method === "POST") {
+    const result = await sql(
+      `INSERT INTO sessions(nama_session) value('${namaSessions}')`,
+    ).then(async () => {
+      return await sql("SELECT * FROM sessions").then((ress: any) => ress.map((sess: any) => {
+        return {
+          id_session: sess?.id_session,
+          nama_session: sess?.nama_session
+        }
+      }))
+    });
+    res.status(200).json(result);
+
+  } else {
+    res.status(200).json({});
+  }
 
 
-  res.status(200).json(result);
 };
 
 export default handler;

@@ -1,29 +1,27 @@
-import React, { FC, ReactNode, useEffect, useState } from "react";
+import React, { FC, ReactNode, useContext, useEffect, useState } from "react";
 
 import { HeaderAdmin } from "@/components/organisms/HeaderAdmin";
 import { SidebarAdmin } from "@/components/organisms/SidebarAdmin";
 import { useRouter } from "next/router";
-import { useAuthState } from "react-firebase-hooks/auth";
-import { auth, db } from "@/firebase";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { AuthContext } from "@/context/authContext";
 
 interface Props {
   children: ReactNode;
 }
 
 const AdminTemplate: FC<Props> = ({ children }) => {
-  const router = useRouter();
-  const [user, loading, error] = useAuthState(auth)
+  const ctx = useContext(AuthContext)
+  const router = useRouter()
 
   useEffect(() => {
-    if (!user) {
-      router.replace('/login')
+    if (!ctx.isAuth) {
+      router.replace("/login")
     }
-  }, [user])
+  }, [router])
 
   return (
     <>
-      <HeaderAdmin name={user?.email as string} />
+      <HeaderAdmin name={ctx.userName} />
       <div className="flex h-full w-full">
         <SidebarAdmin pathname={router.pathname} />
         {children}

@@ -4,26 +4,25 @@ import { Button, Form, Input, Space } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { ChangeEvent, FC } from "react";
-import { signInWithGoogle } from "../../../firebase";
 
 interface Props {
   onSubmit: () => void;
-  onEmailChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onUsernameChange: (e: ChangeEvent<HTMLInputElement>) => void;
   onPasswordChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const LoginForm: FC<Props> = ({
   onSubmit,
-  onEmailChange,
+  onUsernameChange,
   onPasswordChange,
 }) => {
   return (
     <Form onFinish={onSubmit} style={{ width: "50%", marginTop: "2rem" }}>
       <Form.Item
-        name="email"
+        name="username"
       >
-        <label><MediumText className="text-2xl text-white">Email</MediumText></label>
-        <Input type="email" className="py-4 px-4 text-xl" onChange={onEmailChange} />
+        <label><MediumText className="text-2xl text-white">Username</MediumText></label>
+        <Input type="text" className="py-4 px-4 text-xl" onChange={onUsernameChange} />
       </Form.Item>
       <Form.Item
         name="password"
