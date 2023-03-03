@@ -1,6 +1,5 @@
 import { ContainerMain } from "@/components/atoms/Container";
 import { RegularText } from "@/components/atoms/Texts";
-import Image from "next/image";
 import React, { FC } from "react";
 
 type Props = {
@@ -21,13 +20,35 @@ const GenerateWinner: FC<Props> = ({ prize }) => {
           />
           <RegularText className="text-[24px]">{prize.nama_prize}</RegularText>
         </div>
-        <div className="flex-[2] bg-[#A2D5F2] h-[90%] mx-12">
+        <div className="flex-[2] bg-[#A2D5F2] h-[90%] bg-opacity-40 mx-12">
           <header className="h-[102px] bg-[#FFC93C] bg-opacity-60 flex items-center">
             <RegularText className="cursor-pointer h-[85%] shadow-xl mx-4 rounded-full w-[88px] bg-[#E2E2E2] flex items-center justify-center text-center">
               Start Generate
             </RegularText>
-            <RegularText className="text-[36px] flex-1 text-center" >Rania</RegularText>
+            <RegularText className="text-[36px] flex-1 text-center">Rania</RegularText>
           </header>
+          <div className="grid gap-8 grid-cols-4 p-4">
+            <div className="flex items-center gap-2 border-b-cusBlack border-dotted border-[1px]">
+              <span className="px-3 rounded-md py-1 border-[1px] border-cusBlack">1</span>
+              <RegularText className="text-[20px] text-center flex-1">Hendratara Pratama - Depok</RegularText>
+            </div>
+            <div className="flex items-center gap-2 border-b-cusBlack border-dotted border-[1px]">
+              <span className="px-3 rounded-md py-1 border-[1px] border-cusBlack">2</span>
+              <RegularText className="text-[20px] text-center flex-1">Hendratara Pratama - Depok</RegularText>
+            </div>
+            <div className="flex items-center gap-2 border-b-cusBlack border-dotted border-[1px]">
+              <span className="px-3 rounded-md py-1 border-[1px] border-cusBlack">3</span>
+              <RegularText className="text-[20px] text-center flex-1">Hendratara Pratama - Depok</RegularText>
+            </div>
+            <div className="flex items-center gap-2 border-b-cusBlack border-dotted border-[1px]">
+              <span className="px-3 rounded-md py-1 border-[1px] border-cusBlack">4</span>
+              <RegularText className="text-[20px] text-center flex-1">Hendratara Pratama - Depok</RegularText>
+            </div>
+            <div className="flex items-center gap-2 border-b-cusBlack border-dotted border-[1px]">
+              <span className="px-3 rounded-md py-1 border-[1px] border-cusBlack">5</span>
+              <RegularText className="text-[20px] text-center flex-1">Hendratara Pratama - Depok</RegularText>
+            </div>
+          </div>
         </div>
       </div>
     </ContainerMain>
