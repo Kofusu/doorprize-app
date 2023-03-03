@@ -5,14 +5,15 @@ import React, { FC } from "react";
 
 interface Props {
   title: string;
+  placeHolder?: string
 }
 
-const TitleAdminPage: FC<Props> = ({ title }) => {
+const TitleAdminPage: FC<Props> = ({ title, placeHolder }) => {
   return (
     <ContainerMain className="bg-cusWhite h-[87px] flex items-center w-full px-8 rounded-xl">
       <RegularText>
         <Title level={2} className="text-[22px] font-normal">
-          Admin / <MediumText>{title}</MediumText>
+          Admin / {placeHolder} <MediumText>{title}</MediumText>
         </Title>
       </RegularText>
     </ContainerMain>

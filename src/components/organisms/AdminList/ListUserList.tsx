@@ -6,6 +6,7 @@ import { Title } from "@/components/atoms/Titles";
 import { Searchbar } from "@/components/molecules/Searchbar";
 import UserList from "@/components/molecules/Lists/UserList";
 import axios from "axios";
+import { ExportExcelButton } from "@/components/molecules/ExportExcelButton";
 
 interface Props {
   users: any[];
@@ -16,7 +17,9 @@ const ListUserList: FC<Props> = ({ users }) => {
 
   const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setList((user: any) =>
-      users.filter((us: any) => us.nama_user.toLowerCase().includes(e.target.value.toLowerCase())),
+      users.filter((us: any) =>
+        us.nama_user.toLowerCase().includes(e.target.value.toLowerCase()),
+      ),
     );
   };
 
@@ -25,21 +28,23 @@ const ListUserList: FC<Props> = ({ users }) => {
       method: "PATCH",
       url: `/api/users/status`,
       data: { id, status },
-    }).then(() => {
-      setList((user: any) =>
-        user.filter((us: any) => {
-          if (us.id_user !== id) {
-            return us;
-          }
-        }),
-      );
-    });
+    })
+    setList((user: any) =>
+      user.filter((us: any) => {
+        if (us.id_user !== id) {
+          return us;
+        }
+      }),
+    );
   };
 
   return (
     <ContainerMain className="py-[25px] mt-6">
       <MediumText className="flex px-5 justify-between items-center">
-        <Title className="text-2xl font-medium">List User</Title>
+        <div className="flex items-center">
+          <Title className="text-2xl font-medium mr-4">List User</Title>
+          <ExportExcelButton excelData={users} fileName="List-User" />
+        </div>
         <Searchbar onChange={changeHandler} />
       </MediumText>
       <UserList users={list} changeStatus={changeUserStatus} />

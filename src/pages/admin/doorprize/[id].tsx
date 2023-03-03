@@ -8,13 +8,16 @@ import { Main } from "@/components/atoms/Main";
 import { GetServerSideProps } from "next";
 import { PrizeList } from "@/components/organisms/AdminList";
 import sql from "@/utils/db";
+import fs from "fs/promises";
+import path from "path";
 
 interface Props {
   prizes: any;
-  session?: any;
 }
 
-const DoorprizeDetailPage: NextPageWithLayout<Props> = ({ prizes, session }) => {
+const DoorprizeDetailPage: NextPageWithLayout<Props> = ({
+  prizes,
+}) => {
   const [prizeList, setPrizeList] = useState<any>(prizes);
 
   return (
@@ -67,14 +70,18 @@ export const getServerSideProps: GetServerSideProps<Props> = async context => {
   sessions.id_session=prize.id_session where prize.id_session=${id}`).then(
       async (res: any) => {
         if (res.length <= 0) {
-          return await sql(`SELECT * FROM sessions where id_Session=${id}`).then((res: any) => res.map((sess: any) => {
-            return {
-              id_session: sess?.id_session,
-              nama_session: sess?.nama_session
-            }
-          }))
+          return await sql(
+            `SELECT * FROM sessions where id_Session=${id}`,
+          ).then((res: any) =>
+            res.map((sess: any) => {
+              return {
+                id_session: sess?.id_session,
+                nama_session: sess?.nama_session,
+              };
+            }),
+          );
         }
-        
+
         return res.map((prize: any) => {
           return {
             id_prize: prize?.id_prize,
@@ -83,14 +90,12 @@ export const getServerSideProps: GetServerSideProps<Props> = async context => {
             nama_session: prize?.nama_session,
             id_session: prize?.id_session,
           };
-        })
-      }
-        
+        });
+      },
     );
-
   return {
     props: {
-      prizes
+      prizes,
     },
   };
 };

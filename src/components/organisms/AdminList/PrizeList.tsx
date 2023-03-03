@@ -23,7 +23,6 @@ const PrizeList: FC<Props> = ({ prizes }) => {
   };
 
   const onSubmit = async (unit: any, caption: any, file: any) => {
-    // console.log(prizes[0].id_session);
 
     const formData = new FormData();
     formData.append("unit", unit);
@@ -31,7 +30,6 @@ const PrizeList: FC<Props> = ({ prizes }) => {
     formData.append("id_session", prizes[0].id_session);
     formData.append("theFiles", file);
     axios.post("/api/sessions/prize", formData).then(({ data }) => {
-      console.log(data);
       setList(data);
       setIsModalOpen(false);
     });
