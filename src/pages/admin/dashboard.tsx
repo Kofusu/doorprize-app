@@ -9,6 +9,8 @@ import { Main } from "@/components/atoms/Main";
 import { GetServerSideProps } from "next";
 import useWinner from "@/hooks/useWinner";
 import sql from "@/utils/db";
+import { useState } from "react";
+import axios from "axios";
 
 interface Props {
   winner: any;
@@ -23,6 +25,11 @@ const DashboardAdminPage: NextPageWithLayout<Props> = ({
   jumlahDoorprize,
   jumlahUser,
 }) => {
+  const [winnerState, setWinnerState] = useState<any>(winner)
+  const resetHandler = () => {
+    axios.delete('/api/users/winner')
+    setWinnerState([])
+  }
   return (
     <>
       <Head>
@@ -34,12 +41,12 @@ const DashboardAdminPage: NextPageWithLayout<Props> = ({
       <Main>
         <TitleAdminPage title="Dashboard" />
         <AdminDashboardCardList
-          jumlahPemenang={winner?.length}
+          jumlahPemenang={winnerState?.length}
           jumlahBlacklistUser={jumlahBlacklistUser}
           jumlahDoorprize={jumlahDoorprize}
           jumlahUser={jumlahUser}
         />
-        <DashboardList winner={winner} />
+        <DashboardList onReset={resetHandler} winner={winnerState} />
       </Main>
     </>
   );
@@ -85,7 +92,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
   // ];
 
   const winner = await sql(
-    " SELECT users.id_user, users.nama_user, users.no_hp, users.domisili, users.status, prize.nama_prize, prize.nama_gambar FROM winner INNER JOIN users ON  users.id_user=winner.id_user INNER JOIN prize ON prize.id_prize=winner.id_prize"
+    "SELECT users.id_user, users.nama_user, users.no_hp, users.domisili, users.status, prize.nama_prize, prize.nama_gambar FROM winner INNER JOIN users ON  users.id_user=winner.id_user INNER JOIN prize ON prize.id_prize=winner.id_prize"
   ).then((res: any) => {
     return res.map((win: any) => ({
       id_user: win?.id_user,

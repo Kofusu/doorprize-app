@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "init": "npm install && next build && next start"
   },
   "lint-staged": {
     "**/*": "prettier --write --ignore-unknown"
@@ -35,6 +36,7 @@
     "react-firebase-hooks": "^5.1.1",
     "react-icons": "^4.7.1",
     "react-query": "^3.39.3",
+    "react-random-reveal": "^2.0.0",
     "serverless-mysql": "^1.5.4",
     "sharp": "^0.31.3",
     "sheetjs-style": "^0.15.8",

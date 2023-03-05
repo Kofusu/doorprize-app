@@ -12,13 +12,10 @@ import { GenerateWinner } from "@/components/organisms/GenerateWinner";
 
 interface Props {
   prize: any;
+  winner: any[];
 }
 
-const PrizeDetailPage: NextPageWithLayout<Props> = ({
-  prize
-}) => {
-  const [prizeState, setPrizeState] = useState<any>(prize);
-
+const PrizeDetailPage: NextPageWithLayout<Props> = ({ prize, winner }) => {
   return (
     <>
       <Head>
@@ -28,8 +25,11 @@ const PrizeDetailPage: NextPageWithLayout<Props> = ({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Main>
-        <TitleAdminPage placeHolder={`${prize.nama_session} /`} title={prize.nama_prize} />
-        <GenerateWinner prize={prize} />
+        <TitleAdminPage
+          placeHolder={`${prize.nama_session} /`}
+          title={prize.nama_prize}
+        />
+        <GenerateWinner winner={winner} prize={prize} />
       </Main>
     </>
   );
@@ -46,23 +46,36 @@ PrizeDetailPage.getLayout = page => {
 export const getServerSideProps: GetServerSideProps<Props> = async context => {
   const { id } = context.query;
 
-  const prize =
-    await sql(`SELECT prize.id_prize, prize.nama_prize, prize.nama_gambar, prize.id_session, prize.max_winner, sessions.nama_session FROM prize INNER JOIN sessions ON prize.id_session=sessions.id_session WHERE id_prize=${id}`).then(
-      async (res: any) => {
-        return {
-          id_prize: res[0].id_prize,
-          nama_prize: res[0].nama_prize,
-          nama_gambar: res[0].nama_gambar,
-          id_session: res[0].id_session,
-          max_winner: res[0].max_winner,
-          nama_session: res[0].nama_session
-        }
-      },
-    );
+  const prize = await sql(
+    `SELECT prize.id_prize, prize.nama_prize, prize.nama_gambar, prize.id_session, prize.max_winner, sessions.nama_session FROM prize INNER JOIN sessions ON prize.id_session=sessions.id_session WHERE id_prize=${id}`,
+  ).then(async (res: any) => {
+    return {
+      id_prize: res[0].id_prize,
+      nama_prize: res[0].nama_prize,
+      nama_gambar: res[0].nama_gambar,
+      id_session: res[0].id_session,
+      max_winner: res[0].max_winner,
+      nama_session: res[0].nama_session,
+    };
+  });
+
+  const winner = await sql(
+    `SELECT users.id_user, users.nama_user, users.no_hp, users.domisili, users.status, prize.id_prize FROM winner INNER JOIN users ON  users.id_user=winner.id_user INNER JOIN prize ON prize.id_prize=winner.id_prize WHERE winner.id_prize=${id}`,
+  ).then((res: any) => {
+    return res.map((win: any) => ({
+      id_user: win?.id_user,
+      nama_user: win?.nama_user,
+      no_hp: win?.no_hp,
+      domisili: win?.domisili,
+      status: win?.status,
+      id_prize: win?.id_prize,
+    }));
+  });
 
   return {
     props: {
       prize,
+      winner,
     },
   };
 };

@@ -57,8 +57,6 @@ const readFileProd = (
 };
 
 const handler: NextApiHandler = async (req, res) => {
-  console.log(process.cwd());
-  
   try {
     await fs.readdir(path.join(process.cwd() + "/public" + "/img"));
   } catch (error) {
