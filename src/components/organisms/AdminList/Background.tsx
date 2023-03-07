@@ -29,7 +29,7 @@ const Background: FC = () => {
   };
 
   return (
-    <ContainerMain className="py-[25px] bg-inherit overflow-auto h-[585px]">
+    <ContainerMain className="py-[25px] overflow-auto h-[585px] mt-4">
       <MediumText className="flex px-5 justify-between items-center">
         <NoBGButton
           onClick={onOpenModal}

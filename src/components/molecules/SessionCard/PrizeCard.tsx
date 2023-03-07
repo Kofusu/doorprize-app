@@ -10,7 +10,7 @@ interface Props {
 
 const PrizeCard: FC<Props> = ({ prize }) => {
   return (
-    <div className="overflow-hidden cursor-pointer h-[300px] py-6 border-[1px] bg-cusWhite flex items-center flex-col px-4 rounded-xl">
+    <div className="overflow-hidden cursor-pointer h-[300px] py-6 border-[1px] bg-white flex items-center flex-col px-4 rounded-xl">
       <img alt={prize.nama_prize} src={`http://127.0.0.1:8125/img/${prize.nama_gambar}`} width={200} height={200} className="min-h-[100px]" />
       <RegularText className="text-[20px] mt-[25px]">{prize.nama_prize}</RegularText>
       <div className="mt-[25px] flex">

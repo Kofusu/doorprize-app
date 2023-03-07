@@ -36,7 +36,7 @@ const PrizeList: FC<Props> = ({ prizes }) => {
   };
 
   return (
-    <ContainerMain className="px-5 py-3 my-4 bg-inherit overflow-auto h-[585px]">
+    <ContainerMain className="px-5 py-3 my-4 overflow-auto h-[585px]">
       <MediumText className="flex justify-between items-center">
         <NoBGButton
           disabled={list.length >= 6}

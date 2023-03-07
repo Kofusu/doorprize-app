@@ -4,9 +4,8 @@ var path = require("path");
 
 http
   .createServer(function (request, response) {
-    console.log("request starting...");
-
-    var filePath = "./public" + request.url;
+    var filePath = `./public/${request.url}`.split("?")[0];
+    console.log(filePath);
 
     var extname = path.extname(filePath);
     var contentType = "text/html";
