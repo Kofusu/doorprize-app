@@ -32,7 +32,7 @@ const SidebarAdmin = ({ pathname }) => {
           <FiUserX size={28} />
         </SidebarContent>
         <SidebarContent
-          active={pathname.includes("/admin/sessions")}
+          active={pathname.includes("/admin/sessions") || pathname.includes("/admin/background")}
           text="Doorprize"
           href={"/admin/sessions"}
         >

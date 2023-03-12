@@ -12,6 +12,7 @@ const authRoute = require("./routes/authRoute")
 const prizeRoute = require("./routes/prizeRoute")
 const sessionRoute = require("./routes/sessionRoute")
 const userRoute = require("./routes/userRoute")
+const uploadRoute = require("./routes/uploadRoute")
 const sequelize = require("./models")
 
 // Initialitation
@@ -40,6 +41,7 @@ app.use("/api/auth", authRoute)
 app.use("/api/prize", prizeRoute)
 app.use("/api/session", sessionRoute)
 app.use("/api/user", userRoute)
+app.use("/api/upload", uploadRoute)
 
 // Forward To Client
 app.get("*", async (req, res) => {

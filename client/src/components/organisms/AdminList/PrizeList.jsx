@@ -3,10 +3,11 @@ import { ContainerMain } from "@/components/atoms/Container";
 import { MediumText } from "@/components/atoms/Texts";
 import ListPrize from "@/components/molecules/Lists/ListPrize";
 import { AddPrizeModal } from "@/components/molecules/Modal";
+import { apiEndpoint } from "@/configs/config";
 import axios from "axios";
-import React, { FC, memo, useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 
-const PrizeList = ({ prizes }) => {
+const PrizeList = ({ prizes, refetch }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [list, setList] = useState(prizes);
 
@@ -29,8 +30,8 @@ const PrizeList = ({ prizes }) => {
     formData.append("caption", caption);
     formData.append("id_session", prizes[0].id_session);
     formData.append("theFiles", file);
-    axios.post("/api/sessions/prize", formData).then(({ data }) => {
-      setList(data);
+    axios.post(`${apiEndpoint}/api/upload/prize`, formData).then(({ data }) => {
+      refetch()
       setIsModalOpen(false);
     });
   };

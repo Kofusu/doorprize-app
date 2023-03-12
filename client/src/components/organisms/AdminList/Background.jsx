@@ -23,7 +23,7 @@ const Background = () => {
     setModalDisplay(false)
     const formData = new FormData()
     formData.append("theFiles", file)
-    axios.post("/api/sessions/background", formData).then(({ data }) => {
+    axios.post(`${apiEndpoint}/api/upload/background`, formData).then(({ data }) => {
       console.log(data)
       setImageKey(Math.random())
     })

@@ -10,7 +10,7 @@ import { useParams } from "react-router-dom"
 const PrizePage = () => {
   const { sessionID } = useParams()
 
-  const { data } = useQuery(
+  const { data, refetch } = useQuery(
     `prizeList-${sessionID}`,
     () =>
       axios
@@ -22,7 +22,7 @@ const PrizePage = () => {
     <AdminTemplate>
       <Main>
         <TitleAdminPage title={`${data[0]?.nama_session}`} />
-        <PrizeList prizes={data} />
+        <PrizeList prizes={data} refetch={refetch} />
       </Main>
     </AdminTemplate>
   )

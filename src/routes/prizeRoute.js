@@ -1,11 +1,35 @@
-const bodyParser = require("body-parser");
-const { getPrizeDetailJoinSession, getDetailPrize } = require("../models/prizeModel");
-const { getSessionDetail } = require("../models/sessionModel");
-const { getWinnerPrize } = require("../models/winnerModel");
+const bodyParser = require("body-parser")
+const {
+  getPrizeDetailJoinSession,
+  getDetailPrize,
+  getAllPrizeBySession,
+} = require("../models/prizeModel")
+const { getSessionDetail, GetAllSession } = require("../models/sessionModel")
+const { getWinnerPrize } = require("../models/winnerModel")
 
-const router = require("express").Router();
+const router = require("express").Router()
 
 router.use(bodyParser.urlencoded({ extended: false }))
+
+router.get("/", async (req, res, _next) => {
+  let data = []
+
+  const prizeData = await getAllPrizeBySession()
+  const sessionData = await GetAllSession()
+
+  for (let session of sessionData) {
+    data.push({
+      id_session: session.id_session,
+      nama_session: session.nama_session,
+      prize: prizeData.filter((prz) => prz.id_session === session.id_session),
+    })
+  }
+
+  if (data.length) {
+    return res.status(200).json(data)
+  }
+  res.status(200).json([])
+})
 
 router.get("/:sessionId", async (req, res, _next) => {
   const { sessionId } = req.params
@@ -33,7 +57,7 @@ router.get("/detail/:prizeId", async (req, res, _next) => {
   const [prizeData] = await getDetailPrize(prizeId)
   res.status(200).json({
     winner: winnerData,
-    prize: prizeData
+    prize: prizeData,
   })
 })
 
