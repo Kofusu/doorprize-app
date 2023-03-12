@@ -34,7 +34,6 @@ app.use(express.static(path.join(__dirname, "..", "client", "dist")))
 
 // Middleware
 app.use(cors())
-app.use(bodyParser.urlencoded({ extended: false }))
 
 // API Handle
 app.use("/api/auth", authRoute)

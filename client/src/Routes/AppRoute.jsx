@@ -9,6 +9,7 @@ import BlacklistUserPage from "@/pages/admin/BlacklistUserPage"
 import SessionPage from "@/pages/admin/SessionPage"
 import PrizePage from "@/pages/admin/PrizePage"
 import PrizeDetailPage from "@/pages/admin/PrizeDetailPage"
+import EditBG from "@/pages/admin/EditBG"
 
 const AppRoute = () => {
   return (
@@ -27,6 +28,7 @@ const AppRoute = () => {
         <Route path="blacklist-users" element={<BlacklistUserPage />} />
         <Route path="sessions" element={<SessionPage />} />
         <Route path="sessions/:sessionID" element={<PrizePage />} />
+        <Route path="background" element={<EditBG />} />
         <Route
           path="sessions/:sessionID/:prizeID"
           element={<PrizeDetailPage />}
