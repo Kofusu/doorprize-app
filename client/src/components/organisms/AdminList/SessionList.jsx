@@ -1,48 +1,87 @@
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react"
 
-import { ContainerMain } from "@/components/atoms/Container";
-import { MediumText } from "@/components/atoms/Texts";
-import { Searchbar } from "@/components/molecules/Searchbar";
-import ListSession from "@/components/molecules/Lists/ListSession";
-import { NoBGButton, PrimaryButton } from "@/components/atoms/Buttons";
-import AddSessionsModal from "@/components/molecules/Modal/AddSessionsModal";
-import axios from "axios";
-import { Link } from "react-router-dom";
+import { ContainerMain } from "@/components/atoms/Container"
+import { MediumText } from "@/components/atoms/Texts"
+import { Searchbar } from "@/components/molecules/Searchbar"
+import ListSession from "@/components/molecules/Lists/ListSession"
+import { NoBGButton, PrimaryButton } from "@/components/atoms/Buttons"
+import AddSessionsModal from "@/components/molecules/Modal/AddSessionsModal"
+import axios from "axios"
+import { Link } from "react-router-dom"
+import { apiEndpoint } from "@/configs/config"
+import { BiTrash } from "react-icons/bi"
+import { Modal } from "antd"
 
-const SessionList = ({ sessions }) => {
-  const [list, setList] = useState(sessions);
-  const [modalDisplay, setModalDisplay] = useState(false);
+const SessionList = ({ sessions, refetch }) => {
+  const [list, setList] = useState(sessions)
+  const [listChecked, setListChecked] = useState([])
+  const [modalDisplay, setModalDisplay] = useState(false)
 
   useEffect(() => {
     setList(sessions)
   }, [setList, sessions])
 
-  const changeHandler = (e) => {
-    setList(() =>
-      sessions.filter((us) =>
-        us.nama_session.toLowerCase().includes(e.target.value.toLowerCase()),
-      ),
-    );
-  };
+  const deleteHandler = (id, isChecked) => {
+    if (isChecked) {
+      setListChecked((prevState) => [...prevState, id])
+    } else {
+      setListChecked((prevState) => prevState.filter((n) => n !== id))
+    }
+  }
 
   const onOpenModal = () => {
-    setModalDisplay(true);
-  };
+    setModalDisplay(true)
+  }
 
   const onOk = (text) => {
     axios
-      .post(`/api/sessions/session`, {
-        namaSessions: text,
-      })
+      .post(
+        `${apiEndpoint}/api/session`,
+        {
+          sessionName: text,
+        },
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        },
+      )
       .then((res) => {
-        setList(res.data);
-        setModalDisplay(false);
-      });
-  };
+        refetch()
+        setModalDisplay(false)
+      })
+  }
 
   const onCancel = () => {
-    setModalDisplay(false);
-  };
+    setModalDisplay(false)
+  }
+
+  const showConfirmDelete = () => {
+    Modal.confirm({
+      title: "Hapus Selected Session?",
+      content: "Apakah anda ingin menghapus selected Session?",
+      okText: "Yes",
+      okType: "danger",
+      cancelText: "No",
+      onOk() {
+        for (let id of listChecked) {
+          axios
+            .delete(`${apiEndpoint}/api/session/${id}`, {
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+              },
+            })
+            .then(() => {
+              refetch()
+            })
+        }
+        setListChecked([])
+      },
+      onCancel() {
+        console.log("Cancel")
+      },
+    })
+  }
 
   return (
     <ContainerMain className="py-[25px] mt-6">
@@ -61,16 +100,18 @@ const SessionList = ({ sessions }) => {
             </NoBGButton>
           </Link>
         </div>
-        <Searchbar onChange={changeHandler} />
+        <PrimaryButton className="bg-red-600" onClick={showConfirmDelete} disabled={!listChecked.length}>
+          <BiTrash className="scale-150" />
+        </PrimaryButton>
       </MediumText>
-      <ListSession sessions={list} />
+      <ListSession sessions={sessions} onDelete={deleteHandler} />
       <AddSessionsModal
         isDisplay={modalDisplay}
         onOk={onOk}
         onCancel={onCancel}
       />
     </ContainerMain>
-  );
-};
+  )
+}
 
-export default memo(SessionList);
+export default memo(SessionList)

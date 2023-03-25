@@ -19,3 +19,11 @@ body {
 .cusShadow {
   box-shadow: 0 4px 4px 0 #2C2D2E;
 }
+
+.flexingUser {
+  flex: 1 0 300px;
+}
+
+.bot-mid {
+  transform: translate(0, 32px)
+}

@@ -8,8 +8,9 @@ import UserList from "@/components/molecules/Lists/UserList"
 import axios from "axios"
 import { ExportExcelButton } from "@/components/molecules/ExportExcelButton"
 import { apiEndpoint } from "@/configs/config"
+import { PrimaryButton } from "@/components/atoms/Buttons"
 
-const BlacklistUserList = ({ users }) => {
+const BlacklistUserList = ({ users, prev, next, page, usersLengkap, refetch }) => {
   const [list, setList] = useState(users)
 
   useEffect(() => {
@@ -17,34 +18,41 @@ const BlacklistUserList = ({ users }) => {
   }, [setList, users])
 
   const changeHandler = (e) => {
-    setList((user) =>
-      users.filter((us) =>
-        us.nama_user.toLowerCase().includes(e.target.value.toLowerCase()),
-      ),
-    )
+    if (e.target.value !== "") {
+      setList(() =>
+        usersLengkap?.filter((us) =>
+          us.nama_user.toLowerCase().includes(e.target.value.toLowerCase()),
+        ),
+      )
+    } else {
+      setList(users)
+    }
   }
 
   const changeUserStatus = (id, status) => {
-    axios.patch(
-      `${apiEndpoint}/api/user/status`,
-      {
-        id,
-        status,
-      },
-      {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
+    axios
+      .patch(
+        `${apiEndpoint}/api/user/status`,
+        {
+          id,
+          status,
         },
-      },
-    ).then(() => {
-      setList((user) =>
-        user.filter((us) => {
-          if (us.id_user !== id) {
-            return us
-          }
-        }),
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        },
       )
-    })
+      .then(() => {
+        refetch()
+        setList((user) =>
+          user.filter((us) => {
+            if (us.id_user !== id) {
+              return us
+            }
+          }),
+        )
+      })
   }
 
   return (
@@ -57,6 +65,14 @@ const BlacklistUserList = ({ users }) => {
         <Searchbar onChange={changeHandler} />
       </MediumText>
       <UserList users={list} changeStatus={changeUserStatus} />
+      <div className="mt-4 ml-4">
+        <PrimaryButton disabled={page <= 1} onClick={prev}>
+          Prev
+        </PrimaryButton>
+        <PrimaryButton disabled={list?.length < 10} onClick={next}>
+          Next
+        </PrimaryButton>
+      </div>
     </ContainerMain>
   )
 }

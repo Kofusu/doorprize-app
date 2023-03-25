@@ -3,9 +3,10 @@ require("dotenv").config()
 
 // Import Ext
 const express = require("express")
+const http = require('http');
+const bodyParser = require("body-parser")
 const path = require("path")
 const cors = require("cors")
-const bodyParser = require("body-parser")
 
 // Import Int
 const authRoute = require("./routes/authRoute")
@@ -17,6 +18,16 @@ const sequelize = require("./models")
 
 // Initialitation
 const app = express()
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const { generateWinner } = require("./models/prizeModel");
+const { addWinner } = require("./models/winnerModel");
+const { updateUserStatus } = require("./models/userModel");
+const io = new Server(server, {
+  cors: {
+    origin: 'http://localhost:5173'
+  }
+});
 const PORT = process.env.PORT || 4000
 
 // Test DB
@@ -48,6 +59,21 @@ app.get("*", async (req, res) => {
   res.sendFile(path.join(__dirname, "..", "client", "dist", "index.html"))
 })
 
-app.listen(PORT, () => {
+io.on('connection', (socket) => {
+  console.log('a user connected', socket.id);
+  socket.on('generate', async ({id_prize, max_winner}) => {
+    const winners = await generateWinner(max_winner)
+
+    for (let winner of winners) {
+      await addWinner(winner.id_user, id_prize)
+      await updateUserStatus(winner.status, winner.id_user)
+    }
+
+    console.log(id_prize, max_winner);
+    io.emit("generateWinner", winners)
+  })
+});
+
+server.listen(PORT, () => {
   console.log(`server run on http://127.0.0.1:${PORT}`)
 })

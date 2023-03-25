@@ -24,6 +24,9 @@ module.exports.AddSession = async (sessionName) => {
 }
 
 module.exports.removeSession = async (sessionId) => {
+  const query2 = "DELETE FROM prize WHERE id_session = ?"
+  await sequelize.query(query2, { replacements: [sessionId] })
+
   const query = "DELETE FROM sessions WHERE id_session = ?"
   return await sequelize
     .query(query, {
@@ -33,6 +36,9 @@ module.exports.removeSession = async (sessionId) => {
 }
 
 module.exports.removeAllSession = async () => {
+  const query2 = "DELETE FROM prize WHERE id_prize >= 1"
+  await sequelize.query(query2)
+
   const query = "DELETE FROM sessions WHERE id_session >= 1"
   return await sequelize.query(query).then((data) => data[0])
 }

@@ -1,39 +1,39 @@
-import { RegularText } from "@/components/atoms/Texts";
-import { Modal } from "antd";
-import React, { useState } from "react";
+import { RegularText } from "@/components/atoms/Texts"
+import { Modal } from "antd"
+import React, { useState } from "react"
 
 const AddPrizeModal = ({ isDisplay, onOk, onCancel, id_session }) => {
-  const [unit, setUnit] = useState("");
-  const [caption, setCaption] = useState("");
-  const [file, setFile] = useState("");
+  const [unit, setUnit] = useState("")
+  const [caption, setCaption] = useState("")
+  const [file, setFile] = useState("")
 
-  const [uploadData, setUploadData] = useState([]);
+  const [uploadData, setUploadData] = useState([])
 
   const onChangeUnit = (e) => {
-    setUnit(e.target.value);
-  };
+    setUnit(e.target.value)
+  }
 
   const onChangeCaption = (e) => {
-    setCaption(e.target.value);
-  };
+    setCaption(e.target.value)
+  }
 
   const onChangeFile = async (e) => {
     if (e.target.files) {
-      const dataFile = e.target.files[0];
-      setUploadData(URL.createObjectURL(dataFile));
-      setFile(dataFile);
+      const dataFile = e.target.files[0]
+      setUploadData(URL.createObjectURL(dataFile))
+      setFile(dataFile)
     }
-  };
+  }
 
   const submitHandler = async () => {
     if (file) {
-      onOk(unit, caption, file);
+      onOk(unit, caption, file)
       setCaption("")
       setUnit("")
       setFile("")
       setUploadData("")
     }
-  };
+  }
 
   return (
     <Modal
@@ -41,9 +41,12 @@ const AddPrizeModal = ({ isDisplay, onOk, onCancel, id_session }) => {
       onCancel={onCancel}
       onOk={submitHandler}
       title="Add Prize"
-      okButtonProps={{ className: "bg-secondary hover:opacity-70" }}
+      okButtonProps={{
+        className: "bg-secondary hover:opacity-70 text-white disabled:opacity-30",
+        disabled: (!caption || !unit || !file || isNaN(parseInt(unit))),
+      }}
     >
-      <form onSubmit={e => e.preventDefault()}>
+      <form onSubmit={(e) => e.preventDefault()}>
         <div className="flex flex-col mt-4">
           <label className="mb-1">
             <RegularText className="text-[16px]">
@@ -115,13 +118,14 @@ const AddPrizeModal = ({ isDisplay, onOk, onCancel, id_session }) => {
               name="theFiles"
               id="dropzone-file"
               type="file"
+              accept="image/*"
               className="hidden"
             />
           </label>
         </div>
       </form>
     </Modal>
-  );
-};
+  )
+}
 
-export default AddPrizeModal;
+export default AddPrizeModal

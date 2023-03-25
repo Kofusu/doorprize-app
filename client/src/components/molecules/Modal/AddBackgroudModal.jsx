@@ -74,6 +74,7 @@ const AddBackgroundModal = ({ isDisplay, onOk, onCancel }) => {
               id="dropzone-file"
               type="file"
               className="hidden"
+              accept="image/png, image/gif, image/jpeg"
             />
           </label>
         </div>

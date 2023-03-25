@@ -8,13 +8,13 @@ import axios from "axios"
 import { useQuery } from "react-query"
 
 const DashboardPage = () => {
-  const { data } = useQuery("dashboard", () =>
+  const { data, refetch } = useQuery("dashboard", () =>
     axios.get(`${apiEndpoint}/api/user/dashboard`).then((res) => res.data),
   )
 
   const resetHandler = async () => {
     await axios.delete(`${apiEndpoint}/api/user/winner`).then(res => res.data)
-    setWinnerState([])
+    refetch()
   }
 
   return (

@@ -3,6 +3,7 @@ const {
   getPrizeDetailJoinSession,
   getDetailPrize,
   getAllPrizeBySession,
+  removePrizeById,
 } = require("../models/prizeModel")
 const { getSessionDetail, GetAllSession } = require("../models/sessionModel")
 const { getWinnerPrize } = require("../models/winnerModel")
@@ -59,6 +60,13 @@ router.get("/detail/:prizeId", async (req, res, _next) => {
     winner: winnerData,
     prize: prizeData,
   })
+})
+
+router.delete("/detail/:prizeId", async (req, res, _next) => {
+  const { prizeId } = req.params
+
+  const prizeData = await removePrizeById(prizeId)
+  res.status(200).json(prizeData)
 })
 
 module.exports = router

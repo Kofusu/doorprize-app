@@ -9,14 +9,14 @@ import { MediumText } from "@/components/atoms/Texts";
 const UserList = ({ users, changeStatus }) => {
 
   return (
-    <div className="mx-5 h-[465px] mt-8">
+    <div className="mx-5 h-[465px] mt-8 overflow-auto">
       <Column className="gap-y-0">
         <Row className="">
           <ListTitle className="border-[1px] bg-default px-2 py-2 flex justify-center items-center flex-1">
             ID
           </ListTitle>
           <ListTitle className="border-[1px] bg-default px-2 py-2 flex justify-center items-center flex-[4]">
-            Email
+            Nama PT
           </ListTitle>
           <ListTitle className="border-[1px] bg-default px-2 py-2 flex justify-center items-center flex-[4]">
             Nama Lengkap
@@ -40,7 +40,7 @@ const UserList = ({ users, changeStatus }) => {
             />
             <ContentList
               className="border-[1px] px-2 py-2 flex-[4]"
-              text={user?.email}
+              text={user?.nama_pt}
             />
             <ContentList
               className="border-[1px] px-2 py-2 flex-[4]"
@@ -52,7 +52,7 @@ const UserList = ({ users, changeStatus }) => {
             />
             <ContentList
               className="border-[1px] px-2 py-2 flex-[4]"
-              text={user?.no_hp}
+              text={user?.domisili}
             />
             <ContentAksi className="border-[1px] px-2 py-2 flex-[4]">
               <button

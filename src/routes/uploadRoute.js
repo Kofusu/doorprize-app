@@ -48,7 +48,7 @@ router.post(
       file: { filename },
       body: { caption, id_session, unit },
     } = req;
-    if (!req.file) {
+    if (!req.file || !caption || !id_session || !unit) {
       return res.status(400).json({
         status: false,
         data: "No File is selected.",

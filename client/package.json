@@ -24,6 +24,8 @@
     "react-router-dom": "^6.8.2",
     "redux": "^4.2.1",
     "sheetjs-style": "^0.15.8",
+    "socket.io-client": "^4.6.1",
+    "xlsx": "^0.18.5",
     "yup": "^1.0.2"
   },
   "devDependencies": {

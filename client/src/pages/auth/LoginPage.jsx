@@ -3,6 +3,7 @@ import { Title } from "@/components/atoms/Titles"
 import LoginForm from "@/components/organisms/LoginForm/LoginForm"
 import { apiEndpoint } from "@/configs/config"
 import { AuthContext } from "@/context/authContext"
+import useLocalStorage from "@/hooks/useLocalStorage"
 import axios from "axios"
 import React, { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
@@ -11,11 +12,10 @@ const LoginPage = () => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const ctx = useContext(AuthContext)
+  const { localStorageName } = useLocalStorage("isAuth", false)
   const navigate = useNavigate()
 
-  useEffect(() => {
-    if (ctx.userName !== "") navigate("/admin/dashboard")
-  }, [ctx.userName, navigate])
+  if (localStorageName === "true") navigate("/admin/dashboard")
 
   const onSubmit = () => {
     axios
@@ -32,11 +32,16 @@ const LoginPage = () => {
         },
       )
       .then((res) => {
+        console.log(res)
         if (res.data.success) {
           ctx.login(res.data.username)
+          navigate("/admin/dashboard")
         } else {
           alert("Gagal Login")
         }
+      })
+      .catch((err) => {
+        alert("Username / Password Salah")
       })
   }
 

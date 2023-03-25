@@ -1,6 +1,6 @@
 const bodyParser = require("body-parser")
 const { getPrizeDetailJoinSession } = require("../models/prizeModel")
-const { GetAllSession, AddSession, removeSession, getSessionDetail } = require("../models/sessionModel")
+const { GetAllSession, AddSession, removeSession, getSessionDetail, removeAllSession } = require("../models/sessionModel")
 
 const router = require("express").Router()
 
@@ -14,6 +14,7 @@ router.get("/", async (req, res, _next) => {
 router.post("/", async (req, res, _next) => {
   const { sessionName } = req.body
 
+  console.log(sessionName);
   if (!sessionName) {
     return res.status(401).json({ message: "No Param" })
   }
@@ -23,14 +24,7 @@ router.post("/", async (req, res, _next) => {
 })
 
 router.delete("/", async (req, res, _next) => {
-  const { sessionId } = req.params
-
-  if (!sessionId) {
-    return res.status(401).json({ message: "No Param" })
-  }
-  
-  console.log(sessionId);
-  const userData = await removeSession(sessionId)
+  const userData = await removeAllSession()
   res.status(200).json({ userData })
 })
 

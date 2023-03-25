@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import { RxDashboard } from "react-icons/rx";
-import { BsPeople } from "react-icons/bs";
+import { BsGear, BsPeople } from "react-icons/bs";
 import { AiOutlineGift } from "react-icons/ai";
 import { FiUserX } from "react-icons/fi";
 
@@ -37,6 +37,13 @@ const SidebarAdmin = ({ pathname }) => {
           href={"/admin/sessions"}
         >
           <AiOutlineGift size={28} />
+        </SidebarContent>
+        <SidebarContent
+          active={pathname.includes("/admin/settings")}
+          text="Settings"
+          href={"/admin/settings"}
+        >
+          <BsGear size={28} />
         </SidebarContent>
       </ul>
     </aside>

@@ -7,14 +7,14 @@ import axios from "axios"
 import { useQuery } from "react-query"
 
 const SessionPage = () => {
-  const { data } = useQuery("sessions", () =>
+  const { data, refetch } = useQuery("sessions", () =>
     axios.get(`${apiEndpoint}/api/session`).then((res) => res.data),
   )
   return (
     <AdminTemplate>
       <Main>
         <TitleAdminPage title="Doorprize" />
-        <SessionList sessions={data} />
+        <SessionList refetch={refetch} sessions={data} />
       </Main>
     </AdminTemplate>
   )
