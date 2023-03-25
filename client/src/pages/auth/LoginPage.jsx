@@ -12,10 +12,9 @@ const LoginPage = () => {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const ctx = useContext(AuthContext)
-  const { localStorageName } = useLocalStorage("isAuth", false)
   const navigate = useNavigate()
 
-  if (localStorageName === "true") navigate("/admin/dashboard")
+  if (ctx.isAuth) navigate("/admin/dashboard")
 
   const onSubmit = () => {
     axios
