@@ -8,7 +8,7 @@ const SessionUser = ({ data, sessionHighlight, onChangeSession }) => {
         <div
           key={session.id_session}
           onClick={() => onChangeSession(session.id_session)}
-          className={`text-white min-w-[10vw] rounded-3xl py-[2px] px-[35px] cursor-pointer ${
+          className={`text-white min-w-[10vw] flex justify-center items-center rounded-3xl py-[2px] px-[35px] cursor-pointer ${
             sessionHighlight === session.id_session && "bg-primary"
           }`}
         >

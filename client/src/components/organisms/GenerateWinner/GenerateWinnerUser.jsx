@@ -99,13 +99,13 @@ console.log(columnWinner);
             {winnerState?.map((win, i) => (
               <div
                 key={win.id_user}
-                className="flex items-center gap-2 border-b-cusBlack border-dotted border-[1px]"
+                className="flex items-center gap-2 border-b-cusBlack border-dotted border-b-[1px]"
               >
                 <span className="px-3 rounded-md py-1 border-[1px] border-cusBlack">
                   {i + 1}
                 </span>
                 <RegularText className="text-[20px] text-center flex-1">
-                  {win.nama_user} - {win.domisili}
+                  {win.nama_user} ({win.nama_pt})
                 </RegularText>
               </div>
             ))}

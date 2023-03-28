@@ -101,8 +101,9 @@ const Settings = () => {
 
   const unBlacklistAllUser = () => {
     Modal.confirm({
-      title: "Blacklist Semua User?",
-      content: "Apakah anda ingin blaclist semua user?",
+      title: "Unblacklist Semua User?",
+      content: "Apakah anda ingin unblacklist semua user?",
+      okText: "Yes",
       cancelText: "No",
       okType: "default",
       onOk() {
